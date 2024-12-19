@@ -1,0 +1,24 @@
+# Exclud executabilele
+*.exe
+*.out
+*.dll
+
+# Exclud fișierele obiect/intermediare
+*.obj
+*.o
+
+# Exclud directoarele temporare și de build
+/build/
+/Debug/
+/Release/
+
+# Exclud fișierele generate de Visual Studio
+*.vcxproj.user
+*.suo
+*.ipch
+*.pdb
+*.log
+
+# Exclud directoarele generate de IDE-uri
+.vscode/
+.idea/
