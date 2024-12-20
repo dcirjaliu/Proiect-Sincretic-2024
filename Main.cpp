@@ -27,6 +27,7 @@ void PlasareRegine(int k)
 {
     if(k==n)    //daca am plasat toate reginele
     {
+        memset(tabla_sah, 0, sizeof(tabla_sah));
         for(int i=0;i<n;i++)
         {
             for(int j=0;j<n;j++)
