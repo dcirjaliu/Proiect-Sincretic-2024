@@ -1,7 +1,10 @@
-//aceasta este prima mea linie de cod
-#include <iostream>
+#include<iostream>
+
 using namespace std;
+
 int main()
 {
-    cout<<"Hello World";
+    cout<<"Aceasta este prima mea linie de cod\n";
+
+    return 0;
 }
