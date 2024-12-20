@@ -1,60 +1,73 @@
-#include<iostream>
-
-const int n=8;    //setez 8 regine
-int v[n];   //vectorul care pastreaza coloana fiecarei regine
-int tabla_sah[n][n];    //matricea care reprezinta tabla de sah
-
-/*Problema celor 8 regine: să se scrie un program care plasează 8 regine pe tabla de
-șah, fără ca acestea să se atace reciproc*/
-
+#include <iostream>
 using namespace std;
 
-//verificam daca putem plasa regina pe linia k, coloana v[k]
-int PlasareCorecta(int k)
-{
-    for(int i=0;i<k;i++)
-    {
-        //verificam daca reginile sunt pe aceeasi coloana sau pe aceeasi diagonala
-        if(v[i]==v[k]||v[i]-i==v[k]-k||v[i]+i==v[k]+k)
-            return 0;   //plasare incorecta, reginile se ataca
-    }
+/**
+Să se plaseze n regine pe o tablă de şah de dimensiune nxn astfel încât oricare două regine
+să nu se atace. Conform regulilor de şah două regine se atacă dacă sunt pe aceeaşi linie, 
+coloană sau diagonală
+*/
 
-    return 1;   //plasare corecta, reginele nu se ataca
+void init(int n, int a[][8]) { // initializeaza matricea cu 0
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            a[i][j] = 0;
+        }
+    }
 }
 
-//functia de plasare a reginelor
-void PlasareRegine(int k)
-{
-    if(k==n)    //daca am plasat toate reginele
-    {
-        memset(tabla_sah, 0, sizeof(tabla_sah));
-        for(int i=0;i<n;i++)
-        {
-            for(int j=0;j<n;j++)
-            {
-                if(v[i]==j)
-                    tabla_sah[i][j]=1;  //plasam regina
+bool valid(int n, int v[], int k) {
+    for (int i = 0; i < k; i++) {
+        // Verifica daca reginele se ataca pe aceeasi coloana sau diagonale
+        if (v[i] == v[k] || v[i] == v[k] + (k - i) || v[i] == v[k] - (k - i)) {
+            return false;
+        }
+    }
+    if (k >= n) // Verifica daca regina e in afara tablei
+        return false;
+    return true;
+}
 
-                cout<<tabla_sah[i][j]<<" "; //afisam tabla
+bool solutie(int n, int v[], int k) {
+    return k == n; // Verifica daca am plasat toate reginele
+}
+
+void afisare(int n, int a[][8], int v[]) {
+    init(n, a);
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            if (j == v[i]) {
+                a[i][j] = 1; // Plaseaza regina
+            }
+            cout << a[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << "-----------------------------\n";
+}
+
+void back(int n, int a[][8], int v[], int k) {
+    for (int i = 0; i < n; i++) {
+        v[k] = i; // Plaseaza regina pe linia k, coloana i
+        if (valid(n, v, k)) { // Verifica plasarea reginei
+            if (solutie(n, v, k)) { // Verifica daca solutia e completa
+                afisare(n, a, v);
+            } else {
+                back(n, a, v, k + 1); // Plaseaza urmatoarea regina
             }
         }
-
-        return; //iesim din functie
-    }
-
-    //incercam sa plasam regina pe fiecare coloana a linei curente
-    for(int i=0;i<n;i++)
-    {
-        v[k]=i; //plasam regina pe linia k, coloana i
-
-        if(PlasareCorecta(k))   //daca plasare este sigura
-            PlasareRegine(k+1); //plasam regina pe linia urmatoare
     }
 }
 
-int main()
-{
-    PlasareRegine(0);   //incepem cu linia 0
-
+int main() {
+    int n = 8; // Setam n pentru 8 regine
+    cout << "Plasarea celor " << n << " regine pe tabla\n";
+    
+    int a[8][8]; // Matrice de 8x8
+    int v[8]; // Vector care retine pozitiile reginelor pe fiecare linie
+    for (int i = 0; i < 8; i++) {
+        v[i] = -1; // Initializare a vectorului v
+    }
+    
+    back(n, a, v, 0);
     return 0;
 }
