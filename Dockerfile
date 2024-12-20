@@ -1,5 +1,5 @@
 # Folosește o imagine de bază cu suport pentru C++
-FROM gcc:latest
+FROM ubuntu:latest
 
 # Setează directorul de lucru
 WORKDIR /app
