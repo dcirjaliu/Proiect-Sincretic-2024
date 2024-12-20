@@ -1,0 +1,28 @@
+name: Build and Push Docker Image for C++ App
+
+on:
+  push:
+    branches:
+      - main  # Workflow-ul va rula doar atunci când se face un push pe branch-ul principal
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # GitHub Actions rulează pe un sistem Ubuntu
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3  # Clonăm repository-ul în workflow
+
+    - name: Log in to DockerHub
+      uses: docker/login-action@v2  # Loghează-te în DockerHub
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}  # Folosește secretul pentru utilizator DockerHub
+        password: ${{ secrets.DOCKER_PASSWORD }}  # Folosește secretul pentru parola DockerHub
+
+    - name: Build Docker image
+      run: |
+        docker build -t your_dockerhub_username/your_cpp_image_name:latest .  # Construiește imaginea Docker
+
+    - name: Push Docker image to DockerHub
+      run: |
+        docker push your_dockerhub_username/your_cpp_image_name:latest  # Publică imaginea pe DockerHub
