@@ -21,7 +21,7 @@ jobs:
       # Pasul 3: Construieste imaginea Docker
       - name: Build Docker image
         run: |
-          docker build -t username/Proiect-Sincretic-2024:$GITHUB_SHA .
+          docker build -t username/proiect-sincretic-2024:$GITHUB_SHA .
 
       # Pasul 4: Autentifică-te pe Docker Hub
       - name: Login to Docker Hub
