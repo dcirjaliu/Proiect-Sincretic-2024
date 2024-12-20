@@ -18,19 +18,24 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      # Pasul 3: Construieste imaginea Docker
+      # Pasul 3: Descarcă imaginea Docker (docker pull)
+      - name: Pull Docker image
+        run: |
+          docker pull username/proiect-sincretic-2024:latest  # Înlocuiește cu numele imaginii tale, dacă vrei să folosești o imagine existentă
+
+      # Pasul 4: Construieste imaginea Docker
       - name: Build Docker image
         run: |
           docker build -t username/proiect-sincretic-2024:$GITHUB_SHA .
 
-      # Pasul 4: Autentifică-te pe Docker Hub
+      # Pasul 5: Autentifică-te pe Docker Hub
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}  # Numele de utilizator pe Docker Hub
           password: ${{ secrets.DOCKER_PASSWORD }}  # Parola ta Docker Hub
 
-      # Pasul 5: Împinge imaginea Docker pe Docker Hub
+      # Pasul 6: Împinge imaginea Docker pe Docker Hub
       - name: Push Docker image
         run: |
-          docker push username/Proiect-Sincretic-2024:$GITHUB_SHA
+          docker push username/proiect-sincretic-2024:$GITHUB_SHA
